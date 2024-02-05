@@ -2,3 +2,8 @@ name: NationCore
 version: '${version}'
 main: dev.thebjoredcraft.nationcore.NationCore
 api-version: '1.20'
+commands:
+  alerttoggle:
+    permission: nations.cmd.alerttoggle
+  snations:
+    permission: nations.cmd.snations
