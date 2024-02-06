@@ -37,59 +37,61 @@ public class PlayerBuyGuiOre {
         gui.setItem(42, ShopBuyItems.getIron());
         gui.setItem(43, ShopBuyItems.getQuartz());
 
-
+        player.openInventory(gui);
     }
 
-    public static void handle(InventoryClickEvent event){
-        if(event.getClickedInventory().equals(gui)){
-            Player player = (Player) event.getWhoClicked();
-            ItemStack ci = event.getCurrentItem();
+    public static void handle(InventoryClickEvent event) {
+        if (event.getClickedInventory() != null) {
+            if (event.getClickedInventory().equals(gui)) {
+                Player player = (Player) event.getWhoClicked();
+                ItemStack ci = event.getCurrentItem();
 
-            event.setCancelled(true);
-            if(ci != null){
-                if(ci.equals(ShopBuyItems.getWoodItem())){
-                    player.openInventory(PlayerBuyGuiWood.gui);
-                }else if(ci.equals(ShopBuyItems.getStoneItem())){
-                    player.openInventory(PlayerBuyGuiStone.gui);
-                }else if(ci.equals(ShopBuyItems.getOreItem())){
-                    player.openInventory(gui);
-                }else if(ci.equals(ShopBuyItems.getDyeItem())){
-                    player.openInventory(PlayerBuyGuiDye.gui);
-                }else if(ci.equals(ShopBuyItems.getGrassItem())){
-                    player.openInventory(PlayerBuyGuiNaturBlocks.gui);
-                }else if(ci.equals(ShopBuyItems.getDropsItem())){
-                    player.openInventory(PlayerBuyGuiDrops.gui);
-                }else if(ci.equals(ShopBuyItems.getSpecialItem())){
-                    player.openInventory(PlayerBuyGuiSpecial.gui);
-                }// top line
-                else if(ci.equals(ShopBuyItems.getEmerald())){
-                    ShopHandler.buy(player, ShopBuyItems.getEmerald());
-                }else if(ci.equals(ShopBuyItems.getDiamond())){
-                    ShopHandler.buy(player, ShopBuyItems.getDiamond());
-                }else if(ci.equals(ShopBuyItems.getLapisLazuli())){
-                    ShopHandler.buy(player, ShopBuyItems.getLapisLazuli());
-                }else if(ci.equals(ShopBuyItems.getAmethyst())){
-                    ShopHandler.buy(player, ShopBuyItems.getAmethyst());
-                }else if(ci.equals(ShopBuyItems.getGold())){
-                    ShopHandler.buy(player, ShopBuyItems.getGold());
-                }else if(ci.equals(ShopBuyItems.getCopper())){
-                    ShopHandler.buy(player, ShopBuyItems.getCopper());
-                }else if(ci.equals(ShopBuyItems.getRedstone())){
-                    ShopHandler.buy(player, ShopBuyItems.getRedstone());
-                }else if(ci.equals(ShopBuyItems.getEnderPearl())){
-                    ShopHandler.buy(player, ShopBuyItems.getEnderPearl());
-                }else if(ci.equals(ShopBuyItems.getHeart())){
-                    ShopHandler.buy(player, ShopBuyItems.getHeart());
-                }else if(ci.equals(ShopBuyItems.getEchoShard())){
-                    ShopHandler.buy(player, ShopBuyItems.getEchoShard());
-                }else if(ci.equals(ShopBuyItems.getDiscFragment())){
-                    ShopHandler.buy(player, ShopBuyItems.getDiscFragment());
-                }else if(ci.equals(ShopBuyItems.getAncientDebris())){
-                    ShopHandler.buy(player, ShopBuyItems.getAncientDebris());
-                }else if(ci.equals(ShopBuyItems.getIron())){
-                    ShopHandler.buy(player, ShopBuyItems.getIron());
-                }else if(ci.equals(ShopBuyItems.getQuartz())){
-                    ShopHandler.buy(player, ShopBuyItems.getQuartz());
+                event.setCancelled(true);
+                if (ci != null) {
+                    if (ci.equals(ShopBuyItems.getWoodItem())) {
+                        PlayerBuyGuiWood.open(player);
+                    } else if (ci.equals(ShopBuyItems.getStoneItem())) {
+                        PlayerBuyGuiStone.open(player);
+                    } else if (ci.equals(ShopBuyItems.getOreItem())) {
+                        open(player);
+                    } else if (ci.equals(ShopBuyItems.getDyeItem())) {
+                        PlayerBuyGuiDye.open(player);
+                    } else if (ci.equals(ShopBuyItems.getGrassItem())) {
+                        PlayerBuyGuiNaturBlocks.open(player);
+                    } else if (ci.equals(ShopBuyItems.getDropsItem())) {
+                        PlayerBuyGuiDrops.open(player);
+                    } else if (ci.equals(ShopBuyItems.getSpecialItem())) {
+                        PlayerBuyGuiSpecial.open(player);
+                    }// top line
+                    else if (ci.equals(ShopBuyItems.getEmerald())) {
+                        ShopHandler.buy(player, ShopBuyItems.getEmerald());
+                    } else if (ci.equals(ShopBuyItems.getDiamond())) {
+                        ShopHandler.buy(player, ShopBuyItems.getDiamond());
+                    } else if (ci.equals(ShopBuyItems.getLapisLazuli())) {
+                        ShopHandler.buy(player, ShopBuyItems.getLapisLazuli());
+                    } else if (ci.equals(ShopBuyItems.getAmethyst())) {
+                        ShopHandler.buy(player, ShopBuyItems.getAmethyst());
+                    } else if (ci.equals(ShopBuyItems.getGold())) {
+                        ShopHandler.buy(player, ShopBuyItems.getGold());
+                    } else if (ci.equals(ShopBuyItems.getCopper())) {
+                        ShopHandler.buy(player, ShopBuyItems.getCopper());
+                    } else if (ci.equals(ShopBuyItems.getRedstone())) {
+                        ShopHandler.buy(player, ShopBuyItems.getRedstone());
+                    } else if (ci.equals(ShopBuyItems.getEnderPearl())) {
+                        ShopHandler.buy(player, ShopBuyItems.getEnderPearl());
+                    } else if (ci.equals(ShopBuyItems.getHeart())) {
+                        ShopHandler.buy(player, ShopBuyItems.getHeart());
+                    } else if (ci.equals(ShopBuyItems.getEchoShard())) {
+                        ShopHandler.buy(player, ShopBuyItems.getEchoShard());
+                    } else if (ci.equals(ShopBuyItems.getDiscFragment())) {
+                        ShopHandler.buy(player, ShopBuyItems.getDiscFragment());
+                    } else if (ci.equals(ShopBuyItems.getAncientDebris())) {
+                        ShopHandler.buy(player, ShopBuyItems.getAncientDebris());
+                    } else if (ci.equals(ShopBuyItems.getIron())) {
+                        ShopHandler.buy(player, ShopBuyItems.getIron());
+                    } else if (ci.equals(ShopBuyItems.getQuartz())) {
+                        ShopHandler.buy(player, ShopBuyItems.getQuartz());
+                    }
                 }
             }
         }

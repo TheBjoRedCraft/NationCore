@@ -37,7 +37,7 @@ public class ShopBuyItems {
         return stack;
     }
     public static ItemStack getDyeItem(){
-        ItemStack stack = new ItemStack(Material.DIAMOND);
+        ItemStack stack = new ItemStack(Material.WHITE_DYE);
         ItemMeta meta = stack.getItemMeta();
         ArrayList<Component> lore = new ArrayList<>();
 
@@ -409,7 +409,7 @@ public class ShopBuyItems {
         return stack;
     }
     public static ItemStack getEnderPearl(){
-        ItemStack stack = new ItemStack(Material.TERRACOTTA);
+        ItemStack stack = new ItemStack(Material.ENDER_PEARL);
         ItemMeta meta = stack.getItemMeta();
         ArrayList<Component> lore = new ArrayList<>();
 

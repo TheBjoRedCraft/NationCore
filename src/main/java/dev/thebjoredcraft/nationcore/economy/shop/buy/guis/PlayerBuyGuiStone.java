@@ -34,53 +34,55 @@ public class PlayerBuyGuiStone {
         gui.setItem(39, ShopBuyItems.getEndStone());
         gui.setItem(40, ShopBuyItems.getTerracotta());
 
-
+        player.openInventory(gui);
     }
 
     public static void handle(InventoryClickEvent event){
-        if(event.getClickedInventory().equals(gui)){
-            Player player = (Player) event.getWhoClicked();
-            ItemStack ci = event.getCurrentItem();
+        if(event.getClickedInventory() != null) {
+            if (event.getClickedInventory().equals(gui)) {
+                Player player = (Player) event.getWhoClicked();
+                ItemStack ci = event.getCurrentItem();
 
-            event.setCancelled(true);
-            if(ci != null){
-                if(ci.equals(ShopBuyItems.getWoodItem())){
-                    player.openInventory(PlayerBuyGuiWood.gui);
-                }else if(ci.equals(ShopBuyItems.getStoneItem())){
-                    player.openInventory(gui);
-                }else if(ci.equals(ShopBuyItems.getOreItem())){
-                    player.openInventory(PlayerBuyGuiOre.gui);
-                }else if(ci.equals(ShopBuyItems.getDyeItem())){
-                    player.openInventory(PlayerBuyGuiDye.gui);
-                }else if(ci.equals(ShopBuyItems.getGrassItem())){
-                    player.openInventory(PlayerBuyGuiNaturBlocks.gui);
-                }else if(ci.equals(ShopBuyItems.getDropsItem())){
-                    player.openInventory(PlayerBuyGuiDrops.gui);
-                }else if(ci.equals(ShopBuyItems.getSpecialItem())){
-                    player.openInventory(PlayerBuyGuiSpecial.gui);
-                }// top line
-                else if(ci.equals(ShopBuyItems.getStone())){
-                    ShopHandler.buy(player, ShopBuyItems.getStone());
-                }else if(ci.equals(ShopBuyItems.getCobble())){
-                    ShopHandler.buy(player, ShopBuyItems.getCobble());
-                }else if(ci.equals(ShopBuyItems.getMossyCobble())){
-                    ShopHandler.buy(player, ShopBuyItems.getMossyCobble());
-                }else if(ci.equals(ShopBuyItems.getStoneBricks())){
-                    ShopHandler.buy(player, ShopBuyItems.getStoneBricks());
-                }else if(ci.equals(ShopBuyItems.getSmoothStone())){
-                    ShopHandler.buy(player, ShopBuyItems.getSmoothStone());
-                }else if(ci.equals(ShopBuyItems.getDripStoneBlock())){
-                    ShopHandler.buy(player, ShopBuyItems.getDripStoneBlock());
-                }else if(ci.equals(ShopBuyItems.getDripStonePointed())){
-                    ShopHandler.buy(player, ShopBuyItems.getDripStonePointed());
-                }else if(ci.equals(ShopBuyItems.getBlackStone())){
-                    ShopHandler.buy(player, ShopBuyItems.getBlackStone());
-                }else if(ci.equals(ShopBuyItems.getGlowStone())){
-                    ShopHandler.buy(player, ShopBuyItems.getGlowStone());
-                }else if(ci.equals(ShopBuyItems.getEndStone())){
-                    ShopHandler.buy(player, ShopBuyItems.getEndStone());
-                }else if(ci.equals(ShopBuyItems.getTerracotta())){
-                    ShopHandler.buy(player, ShopBuyItems.getTerracotta());
+                event.setCancelled(true);
+                if (ci != null) {
+                    if (ci.equals(ShopBuyItems.getWoodItem())) {
+                        PlayerBuyGuiWood.open(player);
+                    } else if (ci.equals(ShopBuyItems.getStoneItem())) {
+                        open(player);
+                    } else if (ci.equals(ShopBuyItems.getOreItem())) {
+                        PlayerBuyGuiOre.open(player);
+                    } else if (ci.equals(ShopBuyItems.getDyeItem())) {
+                        PlayerBuyGuiDye.open(player);
+                    } else if (ci.equals(ShopBuyItems.getGrassItem())) {
+                        PlayerBuyGuiNaturBlocks.open(player);
+                    } else if (ci.equals(ShopBuyItems.getDropsItem())) {
+                        PlayerBuyGuiDrops.open(player);
+                    } else if (ci.equals(ShopBuyItems.getSpecialItem())) {
+                        PlayerBuyGuiSpecial.open(player);
+                    }// top line
+                    else if (ci.equals(ShopBuyItems.getStone())) {
+                        ShopHandler.buy(player, ShopBuyItems.getStone());
+                    } else if (ci.equals(ShopBuyItems.getCobble())) {
+                        ShopHandler.buy(player, ShopBuyItems.getCobble());
+                    } else if (ci.equals(ShopBuyItems.getMossyCobble())) {
+                        ShopHandler.buy(player, ShopBuyItems.getMossyCobble());
+                    } else if (ci.equals(ShopBuyItems.getStoneBricks())) {
+                        ShopHandler.buy(player, ShopBuyItems.getStoneBricks());
+                    } else if (ci.equals(ShopBuyItems.getSmoothStone())) {
+                        ShopHandler.buy(player, ShopBuyItems.getSmoothStone());
+                    } else if (ci.equals(ShopBuyItems.getDripStoneBlock())) {
+                        ShopHandler.buy(player, ShopBuyItems.getDripStoneBlock());
+                    } else if (ci.equals(ShopBuyItems.getDripStonePointed())) {
+                        ShopHandler.buy(player, ShopBuyItems.getDripStonePointed());
+                    } else if (ci.equals(ShopBuyItems.getBlackStone())) {
+                        ShopHandler.buy(player, ShopBuyItems.getBlackStone());
+                    } else if (ci.equals(ShopBuyItems.getGlowStone())) {
+                        ShopHandler.buy(player, ShopBuyItems.getGlowStone());
+                    } else if (ci.equals(ShopBuyItems.getEndStone())) {
+                        ShopHandler.buy(player, ShopBuyItems.getEndStone());
+                    } else if (ci.equals(ShopBuyItems.getTerracotta())) {
+                        ShopHandler.buy(player, ShopBuyItems.getTerracotta());
+                    }
                 }
             }
         }

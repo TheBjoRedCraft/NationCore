@@ -3,6 +3,15 @@ version: '${version}'
 main: dev.thebjoredcraft.nationcore.NationCore
 api-version: '1.20'
 commands:
+  convertmoney:
+    aliases:
+      - cmoney
+      - cm
+    permission: nations.cmd.convertmoney
+  money:
+    permission: nations.cmd.money
+  shop:
+    permission: nations.cmd.shop
   alerttoggle:
     permission: nations.cmd.alerttoggle
   snations:

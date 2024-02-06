@@ -37,61 +37,63 @@ public class PlayerBuyGuiDye {
         gui.setItem(42, ShopBuyItems.getLight_Gray());
         gui.setItem(43, ShopBuyItems.getBlack());
 
-
+        player.openInventory(gui);
     }
 
     public static void handle(InventoryClickEvent event){
-        if(event.getClickedInventory().equals(gui)){
+        if(event.getClickedInventory() != null){
+        if(event.getClickedInventory().equals(gui)) {
             Player player = (Player) event.getWhoClicked();
             ItemStack ci = event.getCurrentItem();
 
             event.setCancelled(true);
-            if(ci != null){
-                if(ci.equals(ShopBuyItems.getWoodItem())){
-                    player.openInventory(PlayerBuyGuiWood.gui);
-                }else if(ci.equals(ShopBuyItems.getStoneItem())){
-                    player.openInventory(PlayerBuyGuiStone.gui);
-                }else if(ci.equals(ShopBuyItems.getOreItem())){
-                    player.openInventory(PlayerBuyGuiOre.gui);
-                }else if(ci.equals(ShopBuyItems.getDyeItem())){
-                    player.openInventory(gui);
-                }else if(ci.equals(ShopBuyItems.getGrassItem())){
-                    player.openInventory(PlayerBuyGuiNaturBlocks.gui);
-                }else if(ci.equals(ShopBuyItems.getDropsItem())){
-                    player.openInventory(PlayerBuyGuiDrops.gui);
-                }else if(ci.equals(ShopBuyItems.getSpecialItem())){
-                    player.openInventory(PlayerBuyGuiSpecial.gui);
+            if (ci != null) {
+                if (ci.equals(ShopBuyItems.getWoodItem())) {
+                    PlayerBuyGuiWood.open(player);
+                } else if (ci.equals(ShopBuyItems.getStoneItem())) {
+                    PlayerBuyGuiStone.open(player);
+                } else if (ci.equals(ShopBuyItems.getOreItem())) {
+                    PlayerBuyGuiOre.open(player);
+                } else if (ci.equals(ShopBuyItems.getDyeItem())) {
+                    open(player);
+                } else if (ci.equals(ShopBuyItems.getGrassItem())) {
+                    PlayerBuyGuiNaturBlocks.open(player);
+                } else if (ci.equals(ShopBuyItems.getDropsItem())) {
+                    PlayerBuyGuiDrops.open(player);
+                } else if (ci.equals(ShopBuyItems.getSpecialItem())) {
+                    PlayerBuyGuiSpecial.open(player);
                 }// top line
-                else if(ci.equals(ShopBuyItems.getRed())){
+                else if (ci.equals(ShopBuyItems.getRed())) {
                     ShopHandler.buy(player, ShopBuyItems.getRed());
-                }else if(ci.equals(ShopBuyItems.getOrange())){
+                } else if (ci.equals(ShopBuyItems.getOrange())) {
                     ShopHandler.buy(player, ShopBuyItems.getOrange());
-                }else if(ci.equals(ShopBuyItems.getYellow())){
+                } else if (ci.equals(ShopBuyItems.getYellow())) {
                     ShopHandler.buy(player, ShopBuyItems.getYellow());
-                }else if(ci.equals(ShopBuyItems.getLime())){
+                } else if (ci.equals(ShopBuyItems.getLime())) {
                     ShopHandler.buy(player, ShopBuyItems.getLime());
-                }else if(ci.equals(ShopBuyItems.getGreen())){
+                } else if (ci.equals(ShopBuyItems.getGreen())) {
                     ShopHandler.buy(player, ShopBuyItems.getGreen());
-                }else if(ci.equals(ShopBuyItems.getCyan())){
+                } else if (ci.equals(ShopBuyItems.getCyan())) {
                     ShopHandler.buy(player, ShopBuyItems.getCyan());
-                }else if(ci.equals(ShopBuyItems.getLight_Blue())){
+                } else if (ci.equals(ShopBuyItems.getLight_Blue())) {
                     ShopHandler.buy(player, ShopBuyItems.getLight_Blue());
-                }else if(ci.equals(ShopBuyItems.getBlue())){
+                } else if (ci.equals(ShopBuyItems.getBlue())) {
                     ShopHandler.buy(player, ShopBuyItems.getBlue());
-                }else if(ci.equals(ShopBuyItems.getPurple())){
+                } else if (ci.equals(ShopBuyItems.getPurple())) {
                     ShopHandler.buy(player, ShopBuyItems.getPurple());
-                }else if(ci.equals(ShopBuyItems.getMagenta())){
+                } else if (ci.equals(ShopBuyItems.getMagenta())) {
                     ShopHandler.buy(player, ShopBuyItems.getMagenta());
-                }else if(ci.equals(ShopBuyItems.getPink())){
+                } else if (ci.equals(ShopBuyItems.getPink())) {
                     ShopHandler.buy(player, ShopBuyItems.getPink());
-                }else if(ci.equals(ShopBuyItems.getWhite())){
+                } else if (ci.equals(ShopBuyItems.getWhite())) {
                     ShopHandler.buy(player, ShopBuyItems.getWhite());
-                }else if(ci.equals(ShopBuyItems.getLight_Gray())){
+                } else if (ci.equals(ShopBuyItems.getLight_Gray())) {
                     ShopHandler.buy(player, ShopBuyItems.getLight_Gray());
-                }else if(ci.equals(ShopBuyItems.getBlack())){
+                } else if (ci.equals(ShopBuyItems.getBlack())) {
                     ShopHandler.buy(player, ShopBuyItems.getBlack());
                 }
             }
+        }
         }
     }
 }

@@ -37,59 +37,62 @@ public class PlayerBuyGuiDrops {
         gui.setItem(42, ShopBuyItems.getBread());
         gui.setItem(43, ShopBuyItems.getChicken());
 
+        player.openInventory(gui);
 
     }
 
     public static void handle(InventoryClickEvent event){
-        if(event.getClickedInventory().equals(gui)){
-            Player player = (Player) event.getWhoClicked();
-            ItemStack ci = event.getCurrentItem();
+        if(event.getClickedInventory() != null) {
+            if (event.getClickedInventory().equals(gui)) {
+                Player player = (Player) event.getWhoClicked();
+                ItemStack ci = event.getCurrentItem();
 
-            event.setCancelled(true);
-            if(ci != null){
-                if(ci.equals(ShopBuyItems.getWoodItem())){
-                    player.openInventory(PlayerBuyGuiWood.gui);
-                }else if(ci.equals(ShopBuyItems.getStoneItem())){
-                    player.openInventory(PlayerBuyGuiStone.gui);
-                }else if(ci.equals(ShopBuyItems.getOreItem())){
-                    player.openInventory(PlayerBuyGuiOre.gui);
-                }else if(ci.equals(ShopBuyItems.getDyeItem())){
-                    player.openInventory(PlayerBuyGuiDye.gui);
-                }else if(ci.equals(ShopBuyItems.getGrassItem())){
-                    player.openInventory(PlayerBuyGuiNaturBlocks.gui);
-                }else if(ci.equals(ShopBuyItems.getDropsItem())){
-                    player.openInventory(gui);
-                }else if(ci.equals(ShopBuyItems.getSpecialItem())){
-                    player.openInventory(PlayerBuyGuiSpecial.gui);
-                }// top line
-                else if(ci.equals(ShopBuyItems.getBone())){
-                    ShopHandler.buy(player, ShopBuyItems.getBone());
-                }else if(ci.equals(ShopBuyItems.getString())){
-                    ShopHandler.buy(player, ShopBuyItems.getString());
-                }else if(ci.equals(ShopBuyItems.getFeather())){
-                    ShopHandler.buy(player, ShopBuyItems.getFeather());
-                }else if(ci.equals(ShopBuyItems.getEgg())){
-                    ShopHandler.buy(player, ShopBuyItems.getEgg());
-                }else if(ci.equals(ShopBuyItems.getLeather())){
-                    ShopHandler.buy(player, ShopBuyItems.getLeather());
-                }else if(ci.equals(ShopBuyItems.getRabbitHide())){
-                    ShopHandler.buy(player, ShopBuyItems.getRabbitHide());
-                }else if(ci.equals(ShopBuyItems.getHoneyComb())){
-                    ShopHandler.buy(player, ShopBuyItems.getHoneyComb());
-                }else if(ci.equals(ShopBuyItems.getBlaze())){
-                    ShopHandler.buy(player, ShopBuyItems.getBlaze());
-                }else if(ci.equals(ShopBuyItems.getShulker())){
-                    ShopHandler.buy(player, ShopBuyItems.getShulker());
-                }else if(ci.equals(ShopBuyItems.getGunpowder())){
-                    ShopHandler.buy(player, ShopBuyItems.getGunpowder());
-                }else if(ci.equals(ShopBuyItems.getCookedBeef())){
-                    ShopHandler.buy(player, ShopBuyItems.getCookedBeef());
-                }else if(ci.equals(ShopBuyItems.getPotato())){
-                    ShopHandler.buy(player, ShopBuyItems.getPotato());
-                }else if(ci.equals(ShopBuyItems.getBread())){
-                    ShopHandler.buy(player, ShopBuyItems.getBread());
-                }else if(ci.equals(ShopBuyItems.getChicken())){
-                    ShopHandler.buy(player, ShopBuyItems.getChicken());
+                event.setCancelled(true);
+                if (ci != null) {
+                    if (ci.equals(ShopBuyItems.getWoodItem())) {
+                        PlayerBuyGuiWood.open(player);
+                    } else if (ci.equals(ShopBuyItems.getStoneItem())) {
+                        PlayerBuyGuiStone.open(player);
+                    } else if (ci.equals(ShopBuyItems.getOreItem())) {
+                        PlayerBuyGuiOre.open(player);
+                    } else if (ci.equals(ShopBuyItems.getDyeItem())) {
+                        PlayerBuyGuiDye.open(player);
+                    } else if (ci.equals(ShopBuyItems.getGrassItem())) {
+                        PlayerBuyGuiNaturBlocks.open(player);
+                    } else if (ci.equals(ShopBuyItems.getDropsItem())) {
+                        open(player);
+                    } else if (ci.equals(ShopBuyItems.getSpecialItem())) {
+                        PlayerBuyGuiSpecial.open(player);
+                    }// top line
+                    else if (ci.equals(ShopBuyItems.getBone())) {
+                        ShopHandler.buy(player, ShopBuyItems.getBone());
+                    } else if (ci.equals(ShopBuyItems.getString())) {
+                        ShopHandler.buy(player, ShopBuyItems.getString());
+                    } else if (ci.equals(ShopBuyItems.getFeather())) {
+                        ShopHandler.buy(player, ShopBuyItems.getFeather());
+                    } else if (ci.equals(ShopBuyItems.getEgg())) {
+                        ShopHandler.buy(player, ShopBuyItems.getEgg());
+                    } else if (ci.equals(ShopBuyItems.getLeather())) {
+                        ShopHandler.buy(player, ShopBuyItems.getLeather());
+                    } else if (ci.equals(ShopBuyItems.getRabbitHide())) {
+                        ShopHandler.buy(player, ShopBuyItems.getRabbitHide());
+                    } else if (ci.equals(ShopBuyItems.getHoneyComb())) {
+                        ShopHandler.buy(player, ShopBuyItems.getHoneyComb());
+                    } else if (ci.equals(ShopBuyItems.getBlaze())) {
+                        ShopHandler.buy(player, ShopBuyItems.getBlaze());
+                    } else if (ci.equals(ShopBuyItems.getShulker())) {
+                        ShopHandler.buy(player, ShopBuyItems.getShulker());
+                    } else if (ci.equals(ShopBuyItems.getGunpowder())) {
+                        ShopHandler.buy(player, ShopBuyItems.getGunpowder());
+                    } else if (ci.equals(ShopBuyItems.getCookedBeef())) {
+                        ShopHandler.buy(player, ShopBuyItems.getCookedBeef());
+                    } else if (ci.equals(ShopBuyItems.getPotato())) {
+                        ShopHandler.buy(player, ShopBuyItems.getPotato());
+                    } else if (ci.equals(ShopBuyItems.getBread())) {
+                        ShopHandler.buy(player, ShopBuyItems.getBread());
+                    } else if (ci.equals(ShopBuyItems.getChicken())) {
+                        ShopHandler.buy(player, ShopBuyItems.getChicken());
+                    }
                 }
             }
         }
