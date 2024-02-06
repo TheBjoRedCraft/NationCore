@@ -1,5 +1,6 @@
 package dev.thebjoredcraft.nationcore.event;
 
+import dev.thebjoredcraft.nationcore.economy.shop.buy.guis.*;
 import dev.thebjoredcraft.nationcore.region.Region;
 import dev.thebjoredcraft.nationcore.region.Regions;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -7,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 public class EventManager implements Listener {
@@ -29,5 +31,15 @@ public class EventManager implements Listener {
                 }
             }
         }
+    }
+    @EventHandler
+    public void onClick(InventoryClickEvent event){
+        PlayerBuyGuiDrops.handle(event);
+        PlayerBuyGuiDye.handle(event);
+        PlayerBuyGuiNaturBlocks.handle(event);
+        PlayerBuyGuiOre.handle(event);
+        PlayerBuyGuiSpecial.handle(event);
+        PlayerBuyGuiStone.handle(event);
+        PlayerBuyGuiWood.handle(event);
     }
 }
