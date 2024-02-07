@@ -1,5 +1,6 @@
 package dev.thebjoredcraft.nationcore.nation;
 
+import dev.thebjoredcraft.nationcore.NationCore;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -8,7 +9,7 @@ import java.sql.*;
 import java.util.UUID;
 
 public class PlayerNationManager {
-    public static JavaPlugin plugin;
+    public static JavaPlugin plugin = NationCore.getInstance();
     public static Connection connection;
 
     public static void connectToDatabase() {

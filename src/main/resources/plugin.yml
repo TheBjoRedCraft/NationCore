@@ -3,6 +3,15 @@ version: '${version}'
 main: dev.thebjoredcraft.nationcore.NationCore
 api-version: '1.20'
 commands:
+  rules:
+  spawn:
+    permission: nations.cmd.spawn
+  tpadeny:
+    permission: nations.cmd.tpadeny
+  tpa:
+    permission: nations.cmd.tpa
+  tpaaccept:
+    permission: nations.cmd.tpaaccept
   convertmoney:
     aliases:
       - cmoney

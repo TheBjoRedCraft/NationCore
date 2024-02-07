@@ -71,7 +71,7 @@ public class MoneyManager {
                 if (getMoney(player) >= amount) {
                     removeMoney(player, amount);
                     player.getInventory().addItem(stack);
-                    player.sendMessage("<bold>Du hast " + amount + " Money abgehoben und bekommen!");
+                    player.sendMessage(MiniMessage.miniMessage().deserialize("<bold>Du hast " + amount + " Money abgehoben und bekommen!"));
                 } else {
                     player.sendMessage(MiniMessage.miniMessage().deserialize("<bold>Du hast nicht genügend Money, um so viel von der Bank abzuheben!"));
                 }
@@ -91,7 +91,7 @@ public class MoneyManager {
                 if (toConvert.getItemMeta().getCustomModelData() == 1 && toConvert.getType() == Material.PAPER) {
                     addMoney(player, amount);
                     player.getInventory().removeItem(toConvert);
-                    player.sendMessage("<bold>Du hast " + amount + " Money auf dein Konto aufgeladen!");
+                    player.sendMessage(MiniMessage.miniMessage().deserialize("<bold>Du hast " + amount + " Money auf dein Konto aufgeladen!"));
                 } else {
                     player.sendMessage(MiniMessage.miniMessage().deserialize("<bold>Du musst Money in der hand halten, um es auf dein Konto aufladen zu können!"));
                 }

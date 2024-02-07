@@ -19,15 +19,15 @@ public class MoneyCommand implements CommandExecutor {
                         int count = Integer.parseInt(args[1]);
                         MoneyManager.addMoney(player, count);
                         //<color:#3b92d1>
-                        player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Deine Taler haben sich veraendert. Du hast nun " + MoneyManager.getMoney(player) + " Taler!"));
+                        player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Deine Money haben sich veraendert. Du hast nun " + MoneyManager.getMoney(player) + " Money!"));
                     } else if (args[0].equalsIgnoreCase("remove")) {
                         int count = Integer.parseInt(args[1]);
                         MoneyManager.removeMoney(player, count);
-                        player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Deine Taler haben sich veraendert. Du hast nun " + MoneyManager.getMoney(player) + " Taler!"));
+                        player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Deine Money haben sich veraendert. Du hast nun " + MoneyManager.getMoney(player) + " Money!"));
                     } else if (args[0].equalsIgnoreCase("set")) {
                         int count = Integer.parseInt(args[1]);
                         MoneyManager.setMoney(player, count);
-                        player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Deine Taler haben sich veraendert. Du hast nun " + MoneyManager.getMoney(player) + " Taler!"));
+                        player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Deine Money haben sich veraendert. Du hast nun " + MoneyManager.getMoney(player) + " Money!"));
                     }
                 }else{
                     player.sendMessage("No Permission!");
@@ -40,20 +40,20 @@ public class MoneyCommand implements CommandExecutor {
                         if (args[0].equalsIgnoreCase("add")) {
                             int count = Integer.parseInt(args[2]);
                             MoneyManager.addMoney(target, count);
-                            target.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Deine Taler haben sich veraendert. Du hast nun " + MoneyManager.getMoney(target) + " Taler!"));
-                            player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>"+ target.getName() + " Taler haben sich veraendert. Nun " + MoneyManager.getMoney(target) + " Taler!"));
+                            target.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Dein Money hat sich veraendert. Du hast nun " + MoneyManager.getMoney(target) + " Money!"));
+                            player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>"+ target.getName() + " Money hat sich veraendert. Nun " + MoneyManager.getMoney(target) + " Money!"));
                         } else if (args[0].equalsIgnoreCase("remove")) {
                             int count = Integer.parseInt(args[2]);
                             MoneyManager.removeMoney(target, count);
-                            target.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Deine Taler haben sich veraendert. Du hast nun " + MoneyManager.getMoney(target) + " Taler!"));
-                            player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>"+ target.getName() + " Taler haben sich veraendert. Nun " + MoneyManager.getMoney(target) + " Taler!"));
+                            target.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Dein Money habt sich veraendert. Du hast nun " + MoneyManager.getMoney(target) + " Money!"));
+                            player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>"+ target.getName() + " Money hat sich veraendert. Nun " + MoneyManager.getMoney(target) + " Money!"));
                         } else if (args[0].equalsIgnoreCase("set")) {
                             int count = Integer.parseInt(args[2]);
                             MoneyManager.setMoney(target, count);
-                            target.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Deine Taler haben sich veraendert. Du hast nun " + MoneyManager.getMoney(target) + " Taler!"));
-                            player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>"+ target.getName() + " Taler haben sich veraendert. Nun " + MoneyManager.getMoney(target) + " Taler!"));
+                            target.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Dein Money hat sich veraendert. Du hast nun " + MoneyManager.getMoney(target) + " Money!"));
+                            player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>"+ target.getName() + " Money hat sich veraendert. Nun " + MoneyManager.getMoney(target) + " Money!"));
                         } else if (args[0].equalsIgnoreCase("get")) {
-                            player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>"+ target.getName() + " hat aktuell " + MoneyManager.getMoney(target) + " Taler!"));
+                            player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>"+ target.getName() + " hat aktuell " + MoneyManager.getMoney(target) + " Money!"));
                         }
                     } else {
                         player.sendMessage("No Permission!");
@@ -62,7 +62,7 @@ public class MoneyCommand implements CommandExecutor {
                     player.sendMessage("Der Spieler wurde nicht gefunden!");
                 }
             }else if(args.length == 0){
-                player.sendMessage("Deine Taler: " + MoneyManager.getMoney(player));
+                player.sendMessage("Deine Money: " + MoneyManager.getMoney(player));
             }else{
                 player.sendMessage("Incorrect Usage!");
             }

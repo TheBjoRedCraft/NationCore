@@ -7,6 +7,7 @@ import org.bukkit.Location;
 
 public enum Regions {
     FIRE(MiniMessage.miniMessage().deserialize(""), new Location(Bukkit.getWorld("world"), 2691, -64, -588), new Location(Bukkit.getWorld("world"), 2192, 319, -1087)),
+    SPAWN(MiniMessage.miniMessage().deserialize(""), new Location(Bukkit.getWorld("world"), 2691, -64, -588), new Location(Bukkit.getWorld("world"), 2192, 319, -1087)),
     WATER(MiniMessage.miniMessage().deserialize(""), new Location(Bukkit.getWorld("world"), 1190, -64, -2089), new Location(Bukkit.getWorld("world"), 691, 319, -2588));
     private final Component name;
     private final Location loc1;
