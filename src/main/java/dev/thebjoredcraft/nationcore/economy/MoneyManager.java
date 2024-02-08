@@ -36,25 +36,11 @@ public class MoneyManager {
         player.getPersistentDataContainer().set(moneyKey, PersistentDataType.INTEGER, getMoney(player) - count);
     }
 
-    public static BukkitRunnable runnable;
-
-    public static void startDaily() {
-        runnable = new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (Bukkit.getServer().getWorld("world").getTime() == 10) {
-                    for (Player target : Bukkit.getOnlinePlayers()) {
-                        addMoney(target, 500);
-                        target.sendMessage(MiniMessage.miniMessage().deserialize("<bold>Guten Morgen, du hast 500 Coins erhalten!"));
-                    }
-                }
-            }
-        };
-        BukkitTask bukkitTask = runnable.runTaskTimer(NationCore.getInstance(), 0, 1);
-    }
-
-    public static void stopDaily() {
-        runnable.cancel();
+    public static void giveDailyMoney() {
+        for (Player target : Bukkit.getOnlinePlayers()) {
+            MoneyManager.addMoney(target, 500);
+            target.sendMessage(MiniMessage.miniMessage().deserialize("<bold>Guten Morgen, du hast 500 Coins erhalten!"));
+        }
     }
 
     public static void convertToItem(Player player, int amount) {

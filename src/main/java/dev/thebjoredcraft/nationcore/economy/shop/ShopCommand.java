@@ -11,7 +11,11 @@ public class ShopCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(sender instanceof Player player){
-            PlayerBuyGuiWood.open(player);
+            if(args.length == 1 && args[0].equalsIgnoreCase("setup") && player.hasPermission("nations.shop.summon")){
+                ShopHandler.summon(player.getLocation());
+            }else {
+                PlayerBuyGuiWood.open(player);
+            }
         }
         return false;
     }

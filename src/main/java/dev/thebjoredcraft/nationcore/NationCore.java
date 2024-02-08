@@ -8,10 +8,12 @@ import dev.thebjoredcraft.nationcore.event.EventManager;
 import dev.thebjoredcraft.nationcore.nation.NationAlertToggleCommand;
 import dev.thebjoredcraft.nationcore.nation.PlayerNationManager;
 import dev.thebjoredcraft.nationcore.nation.StaffNationCommand;
+import dev.thebjoredcraft.nationcore.region.SpawnCommand;
 import dev.thebjoredcraft.nationcore.rule.RuleCommand;
 import dev.thebjoredcraft.nationcore.teleport.TpaAcceptCommand;
 import dev.thebjoredcraft.nationcore.teleport.TpaCommand;
 import dev.thebjoredcraft.nationcore.teleport.TpaDenyCommand;
+import dev.thebjoredcraft.nationcore.utils.Runnable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
@@ -41,14 +43,14 @@ public final class NationCore extends JavaPlugin {
         getCommand("tpaaccept").setExecutor(new TpaAcceptCommand());
         getCommand("tpa").setExecutor(new TpaCommand());
         getCommand("tpadeny").setExecutor(new TpaDenyCommand());
-        getCommand("spawn").setExecutor(new TpaDenyCommand());
+        getCommand("spawn").setExecutor(new SpawnCommand());
         getCommand("rules").setExecutor(new RuleCommand());
 
 
         PlayerNationManager.connectToDatabase();
         PlayerNationManager.createTables();
 
-        MoneyManager.startDaily();
+        Runnable.startDailyRunnable();
 
         // Plugin startup logic
 
@@ -56,7 +58,7 @@ public final class NationCore extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        MoneyManager.stopDaily();
+        Runnable.stopDailyRunnable();
         // Plugin shutdown logic
     }
     public static void setPermission(Player player, String permission, Boolean arg) {

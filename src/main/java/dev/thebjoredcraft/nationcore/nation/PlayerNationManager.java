@@ -2,6 +2,7 @@ package dev.thebjoredcraft.nationcore.nation;
 
 import dev.thebjoredcraft.nationcore.NationCore;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -74,6 +75,52 @@ public class PlayerNationManager {
             PreparedStatement statement = connection.prepareStatement("SELECT team FROM player_teams WHERE uuid=?");
 
             statement.setString(1, uuid.toString());
+            ResultSet result = statement.executeQuery();
+
+            if (result.next()) {
+                team = result.getString("team");
+            }
+        } catch (SQLException e) {
+            Bukkit.getConsoleSender().sendMessage("[NationCore] Error due getTeam: " + e.getMessage());
+        }
+        return team;
+    }
+
+
+
+    public static void join(OfflinePlayer player, String teamName) {
+        leave(player);
+        try {
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO player_teams (uuid, player, team) VALUES (?, ?, ?)");
+
+            statement.setString(1, player.getUniqueId().toString());
+            statement.setString(2, player.getName());
+            statement.setString(3, teamName);
+            statement.execute();
+            Bukkit.getConsoleSender().sendMessage("added " + player.getName() + " to " + teamName);
+        } catch (SQLException e) {
+            plugin.getLogger().severe("Error due join team: " + e.getMessage());
+        }
+    }
+
+    public static void leave(OfflinePlayer player) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM player_teams WHERE uuid=?");
+
+            statement.setString(1, player.getUniqueId().toString());
+            statement.execute();
+            Bukkit.getConsoleSender().sendMessage("removed " + player.getName() + " from every team");
+        } catch (SQLException e) {
+            plugin.getLogger().severe("Error due remove from team: " + e.getMessage());
+        }
+    }
+
+        public static String get(OfflinePlayer player) {
+        String team = "Kein Team";
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT team FROM player_teams WHERE uuid=?");
+
+            statement.setString(1, player.getUniqueId().toString());
             ResultSet result = statement.executeQuery();
 
             if (result.next()) {
