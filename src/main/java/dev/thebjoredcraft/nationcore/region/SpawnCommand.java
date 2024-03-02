@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class SpawnCommand implements CommandExecutor {
     public static BukkitRunnable runnable;
+    public Location after = null;
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(sender instanceof Player player) {
@@ -21,17 +22,16 @@ public class SpawnCommand implements CommandExecutor {
             if (!player.hasPermission("nations.cmd.spawn.bypass")) {
 
                 runnable = new BukkitRunnable() {
-                    int time = 10;
+                    int time = 5;
 
                     @Override
                     public void run() {
                         player.sendMessage(MiniMessage.miniMessage().deserialize("<bold>" + time));
+                        after = player.getLocation();
                         time--;
                         if (time == 0) {
-                            if (before.equals(player.getLocation())) {
+                            if(before.equals(after)){
                                 player.teleport(player.getWorld().getSpawnLocation());
-                            } else {
-                                player.sendMessage(MiniMessage.miniMessage().deserialize("<bold>Du hast dich bewegt!"));
                             }
                             runnable.cancel();
                         }

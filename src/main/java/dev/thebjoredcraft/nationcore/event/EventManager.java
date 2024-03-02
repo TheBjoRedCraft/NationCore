@@ -1,22 +1,30 @@
 package dev.thebjoredcraft.nationcore.event;
 
+import com.destroystokyo.paper.event.player.PlayerPostRespawnEvent;
+import dev.thebjoredcraft.nationcore.death.DeathManager;
 import dev.thebjoredcraft.nationcore.economy.shop.ShopHandler;
 import dev.thebjoredcraft.nationcore.economy.shop.buy.guis.*;
 import dev.thebjoredcraft.nationcore.nation.PlayerNationManager;
+import dev.thebjoredcraft.nationcore.playerdata.PlayerDataManager;
 import dev.thebjoredcraft.nationcore.region.Region;
 import dev.thebjoredcraft.nationcore.region.Regions;
 import dev.thebjoredcraft.nationcore.rule.RuleManager;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerPortalEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.*;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class EventManager implements Listener {
     @EventHandler
@@ -28,7 +36,8 @@ public class EventManager implements Listener {
                     if(target.hasPermission("nations.region.fire.alert")){
                         if (target != event.getPlayer()) {
                             if (PlayerNationManager.getTeam(event.getPlayer()).equals("water")) {
-                                target.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Der Spieler<color:#40d1db> " + event.getPlayer().getName() + " <color:#3b92d1>hat deine Nation <bold>betreten!"));
+                                target.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Der Spieler<color:#40d1db> " + event.getPlayer().getName() + " <color:#3b92d1>hat deine Nations-Gebiet <bold>betreten!"));
+                                event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Du hast die "+ Regions.FIRE.getName() + " <color:#3b92d1>betreten!"));
                             }
                         }
                     }
@@ -40,7 +49,34 @@ public class EventManager implements Listener {
                     if(target.hasPermission("nations.region.water.alert")){
                         if (target != event.getPlayer()) {
                             if (PlayerNationManager.getTeam(event.getPlayer()).equals("fire")) {
-                                target.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Der Spieler<color:#40d1db> " + event.getPlayer().getName() + " <color:#3b92d1>hat deine Nation <bold>betreten!"));
+                                target.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Der Spieler<color:#40d1db> " + event.getPlayer().getName() + " <color:#3b92d1>hat deine Nations-Gebiet <bold>betreten!"));
+                                event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Du hast die "+ Regions.WATER.getName() + " <color:#3b92d1>betreten!"));
+                            }
+                        }
+                    }
+                }
+            }
+        }else if(Region.isInRegion(event.getFrom(), Regions.WATER) && !Region.isInRegion(event.getTo(), Regions.WATER)){
+            if(!event.getPlayer().hasPermission("nations.region.bypass")){
+                for(Player target : Bukkit.getOnlinePlayers()){
+                    if(target.hasPermission("nations.region.water.alert")){
+                        if (target != event.getPlayer()) {
+                            if (PlayerNationManager.getTeam(event.getPlayer()).equals("fire")) {
+                                target.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Der Spieler<color:#40d1db> " + event.getPlayer().getName() + " <color:#3b92d1>hat deine Nations-Gebiet <bold>verlassen!"));
+                                event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Du hast die "+ Regions.WATER.getName() + " <color:#3b92d1>verlassen!"));
+                            }
+                        }
+                    }
+                }
+            }
+        }if(Region.isInRegion(event.getFrom(), Regions.FIRE) && !Region.isInRegion(event.getTo(), Regions.FIRE)){
+            if(!event.getPlayer().hasPermission("nations.region.bypass")){
+                for(Player target : Bukkit.getOnlinePlayers()){
+                    if(target.hasPermission("nations.region.fire.alert")){
+                        if (target != event.getPlayer()) {
+                            if (PlayerNationManager.getTeam(event.getPlayer()).equals("water")) {
+                                target.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Der Spieler<color:#40d1db> " + event.getPlayer().getName() + " <color:#3b92d1>hat deine Nations-Gebiet <bold>verlassen!"));
+                                event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Du hast die "+ Regions.FIRE.getName() + " <color:#3b92d1>verlassen!"));
                             }
                         }
                     }
@@ -49,7 +85,30 @@ public class EventManager implements Listener {
         }
         if (!Region.isInRegion(event.getFrom(), Regions.SPAWN)) {
             if (Region.isInRegion(event.getTo(), Regions.SPAWN)) {
-                event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Du hast die <color:#40d1db>Spawnregion <color:#3b92d1>betreten"));
+                event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Du hast die "+ Regions.SPAWN_REGION.getName() + " <color:#3b92d1>betreten!"));
+            }
+        }else if (Region.isInRegion(event.getFrom(), Regions.SPAWN)) {
+            if (!Region.isInRegion(event.getTo(), Regions.SPAWN)) {
+                event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Du hast die "+ Regions.SPAWN_REGION.getName() + " <color:#3b92d1>verlassen!"));
+            }
+        }
+        if (!Region.isInRegion(event.getFrom(), Regions.SPAWN_REGION)) {
+            if (Region.isInRegion(event.getTo(), Regions.SPAWN_REGION)) {
+                event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Du hast die "+ Regions.SPAWN_REGION.getName() + " <color:#3b92d1>betreten!"));
+            }
+        }else if (Region.isInRegion(event.getFrom(), Regions.SPAWN_REGION)) {
+            if (!Region.isInRegion(event.getTo(), Regions.SPAWN_REGION)) {
+                event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Du hast die "+ Regions.SPAWN_REGION.getName() + " <color:#3b92d1>verlassen!"));
+            }
+        }
+        if(Region.isInRegion(event.getFrom(), Regions.SPAWN) && !Region.isInRegion(event.getTo(), Regions.SPAWN)){
+            if(DeathManager.getDead(player) == null){
+                DeathManager.setDead(player, false);
+            }else{
+                if(DeathManager.getDead(player)) {
+                    event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<bold>Du bist tot. Du kannst den "+ Regions.SPAWN.getName() + " nicht verlassen!"));
+                    event.setCancelled(true);
+                }
             }
         }
 
@@ -78,6 +137,40 @@ public class EventManager implements Listener {
     public void onInteract(PlayerInteractEntityEvent event){
         if(event.getRightClicked().getScoreboardTags().contains(ShopHandler.traderTag)){
             PlayerBuyGuiWood.open(event.getPlayer());
+        } else if(event.getRightClicked() instanceof Player player){
+            if(event.getPlayer().getItemInHand().getType().equals(Material.DIAMOND_BLOCK)) {
+                if (DeathManager.getDead(player) == null) {
+                    DeathManager.setDead(player, false);
+                } else {
+                    if (DeathManager.getDead(player)) {
+                        ItemStack toRemove = new ItemStack(Material.DIAMOND_BLOCK);
+
+                        toRemove.setAmount(1);
+
+                        event.getPlayer().getInventory().removeItem(toRemove);
+                        DeathManager.setDead(player, false);
+
+                        player.sendMessage(MiniMessage.miniMessage().deserialize("<bold>Du wurdest wiederbelebt!"));
+                        event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<bold>Du hast " + player.getName() + " wiederbelebt!"));
+
+                        if(player.hasPotionEffect(PotionEffectType.GLOWING)){
+                            player.removePotionEffect(PotionEffectType.GLOWING);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    @EventHandler
+    public void onRespawn(PlayerPostRespawnEvent event){
+        Player player = event.getPlayer();
+        if(DeathManager.getDead(player) == null){
+            DeathManager.setDead(player, false);
+        }else{
+            if(DeathManager.getDead(player)){
+                player.teleport(player.getWorld().getSpawnLocation());
+                player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 1, false, false));
+            }
         }
     }
     @EventHandler
@@ -88,6 +181,52 @@ public class EventManager implements Listener {
         }else if(event.getCause().equals(PlayerTeleportEvent.TeleportCause.END_PORTAL) || event.getCause().equals(PlayerTeleportEvent.TeleportCause.END_GATEWAY)){
             event.setCancelled(true);
             event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<bold>Das End ist deaktiviert!"));
+        }
+    }
+    @EventHandler
+    public void onDeath(PlayerDeathEvent event){
+        if(!event.getPlayer().hasPermission("nations.death.bypass")) {
+            DeathManager.handleDeath(event.getPlayer());
+        }
+    }
+    @EventHandler
+    public void onDamage(EntityDamageEvent event){
+        if(event.getEntity() instanceof Player player){
+            if(DeathManager.getDead(player) == null){
+                DeathManager.setDead(player, false);
+            }else{
+                if(DeathManager.getDead(player)){
+                    event.setCancelled(true);
+                }
+            }
+        }
+    }
+    @EventHandler
+    public void onPlace(BlockPlaceEvent event){
+        if(Region.isInRegion(event.getBlock().getLocation(), Regions.FIRE) && !PlayerNationManager.getTeam(event.getPlayer()).equals("fire")){
+            if(!event.getPlayer().hasPermission("nations.nationprot.bypass")) {
+                event.setCancelled(true);
+                event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<red>Du kannst hier nicht bauen!"));
+            }
+        }else if(Region.isInRegion(event.getBlock().getLocation(), Regions.WATER) && !PlayerNationManager.getTeam(event.getPlayer()).equals("water")){
+            if(!event.getPlayer().hasPermission("nations.nationprot.bypass")) {
+                event.setCancelled(true);
+                event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<red>Du kannst hier nicht bauen!"));
+            }
+        }
+    }
+    @EventHandler
+    public void onBreak(BlockBreakEvent event){
+        if(Region.isInRegion(event.getBlock().getLocation(), Regions.FIRE) && !PlayerNationManager.getTeam(event.getPlayer()).equals("fire")){
+            if(!event.getPlayer().hasPermission("nations.nationprot.bypass")) {
+                event.setCancelled(true);
+                event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<red>Du kannst hier nicht abbauen!"));
+            }
+        }else if(Region.isInRegion(event.getBlock().getLocation(), Regions.WATER) && !PlayerNationManager.getTeam(event.getPlayer()).equals("water")){
+            if(!event.getPlayer().hasPermission("nations.nationprot.bypass")) {
+                event.setCancelled(true);
+                event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<red>Du kannst hier nicht abbauen!"));
+            }
         }
     }
 }
