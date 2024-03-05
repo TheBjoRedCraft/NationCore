@@ -138,7 +138,11 @@ public class EventManager implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEntityEvent event){
         if(event.getRightClicked().getScoreboardTags().contains(ShopHandler.traderTag)){
-            PlayerBuyGuiWood.open(event.getPlayer());
+            if(ShopHandler.isVisible) {
+                PlayerBuyGuiWood.open(event.getPlayer());
+            }else{
+                event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<red>Der Shop-Händler ist aktuell auf Reisen! Bitte komm später wieder..."));
+            }
         } else if(event.getRightClicked() instanceof Player player){
             if(event.getPlayer().getItemInHand().getType().equals(Material.DIAMOND_BLOCK)) {
                 if (DeathManager.getDead(player) == null) {

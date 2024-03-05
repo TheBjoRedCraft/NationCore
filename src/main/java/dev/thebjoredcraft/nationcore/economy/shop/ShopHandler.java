@@ -7,7 +7,6 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;//
 import org.bukkit.potion.PotionEffect;
@@ -15,6 +14,7 @@ import org.bukkit.potion.PotionEffectType;
 
 public class ShopHandler {
     public static String traderTag = "45865873473903265772360867548067854";
+    public static Boolean isVisible;
     public static void buy(Player buyer, ItemStack toBuy) {
         int prize = toBuy.getItemMeta().getCustomModelData();
         int amount = toBuy.getAmount();
@@ -60,6 +60,7 @@ public class ShopHandler {
         livingEntity.setAI(false);
     }
     public static void hide(){
+        isVisible = false;
         for(Entity entity : Bukkit.getWorld("map").getEntities()) {
             if(entity instanceof Villager villager) {
                 if(villager.getScoreboardTags().contains(traderTag)){
@@ -69,6 +70,7 @@ public class ShopHandler {
         }
     }
     public static void show(){
+        isVisible = true;
         for(Entity entity : Bukkit.getWorld("map").getEntities()) {
             if(entity instanceof Villager villager) {
                 if(villager.getScoreboardTags().contains(traderTag)){

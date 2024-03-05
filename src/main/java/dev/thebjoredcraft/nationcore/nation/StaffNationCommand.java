@@ -1,6 +1,7 @@
 package dev.thebjoredcraft.nationcore.nation;
 
 import dev.thebjoredcraft.nationcore.bosbar.BosBarManager;
+import dev.thebjoredcraft.nationcore.economy.shop.ShopHandler;
 import dev.thebjoredcraft.nationcore.utils.Runnable;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
@@ -38,10 +39,18 @@ public class StaffNationCommand implements CommandExecutor {
                 player.sendMessage(MiniMessage.miniMessage().deserialize("<red>" + Runnable.getRealInGameTime()));
                 player.sendMessage(MiniMessage.miniMessage().deserialize("<red>---------"));
                 player.sendMessage(MiniMessage.miniMessage().deserialize("<red>" + Runnable.getCount()));
+            }else if(args.length == 1 && args[0].equalsIgnoreCase("sv")){
+                if(ShopHandler.isVisible){
+                    ShopHandler.isVisible = false;
+                }else{
+                    ShopHandler.isVisible = true;
+                }
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>The Shop Handler visibility is now: " + ShopHandler.isVisible));
             }else{
                 player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations set <player> <nation>"));
                 player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations get <player>"));
                 player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations remove <player>"));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations sv"));
             }
         }
         return false;

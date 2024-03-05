@@ -4,6 +4,7 @@ import dev.thebjoredcraft.nationcore.death.DeathCommand;
 import dev.thebjoredcraft.nationcore.economy.MoneyCommand;
 import dev.thebjoredcraft.nationcore.economy.PayCommand;
 import dev.thebjoredcraft.nationcore.economy.shop.ShopCommand;
+import dev.thebjoredcraft.nationcore.economy.shop.ShopHandler;
 import dev.thebjoredcraft.nationcore.event.EventManager;
 import dev.thebjoredcraft.nationcore.nation.NationAlertToggleCommand;
 import dev.thebjoredcraft.nationcore.nation.PlayerNationManager;
@@ -53,6 +54,7 @@ public final class NationCore extends JavaPlugin {
         Runnable.startDailyRunnable();
         Runnable.startTenSecondRunnable();
         PlayerNationManager.setupPlayerData();
+        ShopHandler.hide();
 
 
 //        PlayerDataManager.dataFile = new File(get DataFolder(), "data.yml");
@@ -68,6 +70,7 @@ public final class NationCore extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        ShopHandler.hide();
         Runnable.stopDailyRunnable();
         Runnable.stopTenSecondRunnable();
 
