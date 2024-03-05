@@ -8,16 +8,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.Locale;
+import org.bukkit.entity.*;
+import org.bukkit.inventory.ItemStack;//
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class ShopHandler {
-    public static String traderTag = "4586587347390ß3265772360867548067854";
+    public static String traderTag = "45865873473903265772360867548067854";
     public static void buy(Player buyer, ItemStack toBuy) {
         int prize = toBuy.getItemMeta().getCustomModelData();
         int amount = toBuy.getAmount();
@@ -28,13 +25,18 @@ public class ShopHandler {
                 ItemStack stack = new ItemStack(type);
 
                 stack.setAmount(amount);
-                if (MoneyManager.getMoney(buyer) >= prize) {
-                    MoneyManager.removeMoney(buyer, prize);
+                if(MoneyManager.getMoney(buyer) != -1) {
+                    if (MoneyManager.getMoney(buyer) >= prize) {
+                        MoneyManager.removeMoney(buyer, prize);
 
+                        buyer.playSound(sound);
+                        buyer.getInventory().addItem(stack);
+                    } else {
+                        buyer.sendMessage(MiniMessage.miniMessage().deserialize("<bold>Du hast nicht genügend Geld!"));
+                    }
+                }else{
                     buyer.playSound(sound);
                     buyer.getInventory().addItem(stack);
-                } else {
-                    buyer.sendMessage(MiniMessage.miniMessage().deserialize("<bold>Du hast nicht genügend Geld!"));
                 }
             }catch (NullPointerException e){
                 buyer.sendMessage(MiniMessage.miniMessage().deserialize("<bold>Du hast kein Platz im Inventar!"));
@@ -57,10 +59,23 @@ public class ShopHandler {
         LivingEntity livingEntity = (LivingEntity) trader;
         livingEntity.setAI(false);
     }
-    public static void kill(World world) {
-        for (Entity trader : world.getEntities()) {
-            if(trader.getScoreboardTags().contains(traderTag)) {
-                trader.remove();
+    public static void hide(){
+        for(Entity entity : Bukkit.getWorld("map").getEntities()) {
+            if(entity instanceof Villager villager) {
+                if(villager.getScoreboardTags().contains(traderTag)){
+                    villager.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 255, false, false));
+                }
+            }
+        }
+    }
+    public static void show(){
+        for(Entity entity : Bukkit.getWorld("map").getEntities()) {
+            if(entity instanceof Villager villager) {
+                if(villager.getScoreboardTags().contains(traderTag)){
+                    if(villager.getPotionEffect(PotionEffectType.INVISIBILITY) == null) {
+                        villager.removePotionEffect(PotionEffectType.INVISIBILITY);
+                    }
+                }
             }
         }
     }

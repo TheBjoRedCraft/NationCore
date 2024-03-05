@@ -1,5 +1,7 @@
 package dev.thebjoredcraft.nationcore.nation;
 
+import dev.thebjoredcraft.nationcore.bosbar.BosBarManager;
+import dev.thebjoredcraft.nationcore.utils.Runnable;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -16,33 +18,30 @@ public class StaffNationCommand implements CommandExecutor {
                 String nation = args[2];
                 Player target = Bukkit.getPlayer(args[1]);
                 if(target != null){
-                    if(nation.equalsIgnoreCase("water") || nation.equalsIgnoreCase("fire")) {
-                        PlayerNationManager.joinTeam(target, nation);
-                        if(nation.equalsIgnoreCase("fire")) {
-                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "region removemember water " + target.getName() + " -w world");
-                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "region addmember " + nation + " " + target.getName() + " -w world");
-                        }else{
-                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "region removemember fire " + target.getName() + " -w world");
-                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "region addmember " + nation + " " + target.getName() + " -w world");
-                        }
+                    if(nation.equalsIgnoreCase("water") || nation.equalsIgnoreCase("fire") || nation.equalsIgnoreCase("nothing")) {
+                        PlayerNationManager.joinTeam(target.getName(), nation);
                     }else{
-                        player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Es gibt nur diese Nationen: <color:#40d1db>Water, Fire"));
+                        player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Es gibt nur diese Nationen: <color:#40d1db>Water, Fire, Nothing"));
                     }
                 }
             }else if(args.length == 2 && args[0].equalsIgnoreCase("remove")){
                 Player target = Bukkit.getPlayer(args[1]);
                 if(target != null){
-                    String nation = PlayerNationManager.getTeam(target);
-
-                    PlayerNationManager.leaveTeam(target);
-
-                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "region removemember " + nation + " " + target.getName() + " -w world");
+                    PlayerNationManager.leaveTeam(target.getName());
                 }
             }else if(args.length == 2 && args[0].equalsIgnoreCase("get")){
                 Player target = Bukkit.getPlayer(args[1]);
                 if(target != null){
-                    player.sendMessage(PlayerNationManager.getTeam(target));
+                    player.sendMessage(PlayerNationManager.getTeam(target.getName()).getDisplayName());
                 }
+            }else if(args.length == 1 && args[0].equalsIgnoreCase("time")){
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>" + Runnable.getRealInGameTime()));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>---------"));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>" + Runnable.getCount()));
+            }else{
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations set <player> <nation>"));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations get <player>"));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations remove <player>"));
             }
         }
         return false;

@@ -1,6 +1,7 @@
 package dev.thebjoredcraft.nationcore.utils;
 
 import dev.thebjoredcraft.nationcore.NationCore;
+import dev.thebjoredcraft.nationcore.actionbar.ActionbarManager;
 import dev.thebjoredcraft.nationcore.bosbar.BosBarManager;
 import dev.thebjoredcraft.nationcore.economy.MoneyManager;
 import dev.thebjoredcraft.nationcore.economy.shop.ShopHandler;
@@ -23,15 +24,17 @@ public class Runnable {
 
             @Override
             public void run() {
-                if (Bukkit.getServer().getWorld("world").getTime() == 10) {
+                if (Bukkit.getServer().getWorld("map").getTime() == 10) {
                     MoneyManager.giveDailyMoney();
+
                     if(count.equalsIgnoreCase("0")){
-                        ShopHandler.summon(new Location(Bukkit.getWorld("world"), 1715, 139, -1609, 50, 0));
+                        ShopHandler.show();
                         Bukkit.broadcast(MiniMessage.miniMessage().deserialize("<bold>Der Händler am Spawn ist gekommen!"));
+
                         BukkitRunnable delayed = new BukkitRunnable() {
                             @Override
                             public void run() {
-                                ShopHandler.kill(Bukkit.getWorld("world"));
+                                ShopHandler.hide();
                                 Bukkit.broadcast(MiniMessage.miniMessage().deserialize("<bold>Der Händler am Spawn ist verschwunden!"));
                             }
                         };
@@ -39,14 +42,15 @@ public class Runnable {
                         count = "3";
                     }
                     int countI = Integer.parseInt(count);
+
                     countI--;
                     count = String.valueOf(countI);
                 }
                 
-                inGameTime = Bukkit.getWorld("world").getTime();
-                for(Player target : Bukkit.getOnlinePlayers()) {
-                    BosBarManager.update(target);
-                }
+                inGameTime = Bukkit.getWorld("map").getTime();
+//                for(Player target : Bukkit.getOnlinePlayers()) {
+//                    BosBarManager.update(target);
+//                }
             }
         };
         BukkitTask bukkitTask = runnable.runTaskTimer(NationCore.getInstance(), 0, 1);
@@ -54,6 +58,23 @@ public class Runnable {
 
     public static void stopDailyRunnable() {
         runnable.cancel();
+    }
+    public static void startTenSecondRunnable(){
+        runnable2 = new BukkitRunnable() {
+            @Override
+            public void run() {
+                for(Player player : Bukkit.getOnlinePlayers()) {
+                    ActionbarManager.send(player);
+                }
+            }
+        };
+        BukkitTask bukkitTask = runnable2.runTaskTimer(NationCore.getInstance(), 0, 10);
+    }
+
+    public static void stopTenSecondRunnable() {
+        if(!runnable2.isCancelled()) {
+            runnable2.cancel();
+        }
     }
 
     public static int getCount(){

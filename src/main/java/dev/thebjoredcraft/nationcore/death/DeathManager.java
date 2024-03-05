@@ -21,5 +21,7 @@ public class DeathManager {
     public static void handleDeath(Player player){
         setDead(player, true);
         player.sendMessage(MiniMessage.miniMessage().deserialize("<bold>Du bist gestorben! Du kannst nur von anderen mit einem Diamant-Block gerettet werden!"));
+
+
     }
 }

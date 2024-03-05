@@ -29,21 +29,6 @@ public class NationCommand implements CommandExecutor {
                 }
             }
         }
-        //NOT IN USE
-        //NOT IN USE
-        //NOT IN USE
-        //NOT IN USE
-        //NOT IN USE
-        //NOT IN USE
-//NOT IN USE
-//NOT IN USE
-//NOT IN USE
-//NOT IN USE
-//NOT IN USE
-//NOT IN USE
-//NOT IN USE
-
-
         return false;
     }
 }

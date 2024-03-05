@@ -3,8 +3,10 @@ version: '${version}'
 main: dev.thebjoredcraft.nationcore.NationCore
 api-version: '1.20'
 commands:
-  bbar:
-    permission: nations.cmd.bbar
+  nick:
+    permission: nations.cmd.nick
+  pay:
+    permission: nations.cmd.pay
   death:
     permission: nations.cmd.death
   rules:
