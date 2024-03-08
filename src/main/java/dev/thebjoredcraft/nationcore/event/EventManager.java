@@ -8,6 +8,7 @@ import dev.thebjoredcraft.nationcore.nation.PlayerNationManager;
 import dev.thebjoredcraft.nationcore.region.Region;
 import dev.thebjoredcraft.nationcore.region.Regions;
 
+import io.papermc.paper.event.player.PlayerTradeEvent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -22,6 +23,8 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -274,6 +277,14 @@ public class EventManager implements Listener {
     public void onJoin(PlayerJoinEvent event){
         if(PlayerNationManager.getTeam(event.getPlayer().getName()) == null){
             PlayerNationManager.joinTeam(event.getPlayer().getName(), "nothing");
+        }
+    }
+    @EventHandler
+    public void onTrade(PlayerTradeEvent event){
+        Player player = event.getPlayer();
+        if(!player.hasPermission("nations.trade.bypass")){
+            event.setCancelled(true);
+            player.sendMessage(MiniMessage.miniMessage().deserialize("<red>Du kannst nicht handeln!"));
         }
     }
 }
