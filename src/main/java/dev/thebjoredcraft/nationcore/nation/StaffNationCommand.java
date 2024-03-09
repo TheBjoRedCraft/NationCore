@@ -2,6 +2,7 @@ package dev.thebjoredcraft.nationcore.nation;
 
 import dev.thebjoredcraft.nationcore.bosbar.BosBarManager;
 import dev.thebjoredcraft.nationcore.economy.shop.ShopHandler;
+import dev.thebjoredcraft.nationcore.kingsystem.KingManager;
 import dev.thebjoredcraft.nationcore.utils.Runnable;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
@@ -48,11 +49,18 @@ public class StaffNationCommand implements CommandExecutor {
                     ShopHandler.show();
                 }
                 player.sendMessage(MiniMessage.miniMessage().deserialize("<red>The Shop Handler visibility is now: " + ShopHandler.isVisible));
+            }else if(args.length == 2 && args[0].equalsIgnoreCase("crown")){
+                Player target = Bukkit.getPlayer(args[1]);
+                if(target != null){
+                    KingManager.giveCrown(player, target);
+                    player.sendMessage(MiniMessage.miniMessage().deserialize("<red>Der Spieler hat nun eine Krone!"));
+                }
             }else{
                 player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations set <player> <nation>"));
                 player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations get <player>"));
                 player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations remove <player>"));
                 player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations sv"));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations crown <player>"));
             }
         }
         return false;
