@@ -50,10 +50,8 @@ public class StaffNationCommand implements CommandExecutor, TabCompleter {
                 player.sendMessage(MiniMessage.miniMessage().deserialize("<red>" + Runnable.getCount()));
             }else if(args.length == 1 && args[0].equalsIgnoreCase("sv")){
                 if(ShopHandler.isVisible){
-                    ShopHandler.isVisible = false;
                     ShopHandler.hide();
                 }else{
-                    ShopHandler.isVisible = true;
                     ShopHandler.show();
                 }
                 player.sendMessage(MiniMessage.miniMessage().deserialize("<red>The Shop Handler visibility is now: " + ShopHandler.isVisible));

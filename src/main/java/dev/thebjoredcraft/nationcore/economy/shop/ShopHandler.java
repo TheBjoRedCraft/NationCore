@@ -59,7 +59,7 @@ public class ShopHandler {
         LivingEntity livingEntity = (LivingEntity) trader;
         livingEntity.setAI(false);
     }
-    public static void hide(){
+    public static void hide() {
         isVisible = false;
         for(Entity entity : Bukkit.getWorld("map").getEntities()) {
             if(entity instanceof Villager villager) {

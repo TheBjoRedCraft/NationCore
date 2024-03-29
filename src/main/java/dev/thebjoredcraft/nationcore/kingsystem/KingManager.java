@@ -5,6 +5,7 @@ import dev.thebjoredcraft.nationcore.nation.Nation;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,6 +18,10 @@ public class KingManager {
 
         im.displayName(name);
         im.setCustomModelData(1);
+        im.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4, false);
+        im.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 4, false);
+        im.addEnchant(Enchantment.PROTECTION_FIRE, 4, false);
+        im.addEnchant(Enchantment.PROTECTION_PROJECTILE, 4, false);
 
         is.setItemMeta(im);
 
