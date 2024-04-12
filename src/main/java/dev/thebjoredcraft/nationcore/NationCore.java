@@ -17,6 +17,7 @@ import dev.thebjoredcraft.nationcore.teleport.TpaDenyCommand;
 import dev.thebjoredcraft.nationcore.utils.Runnable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Pose;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -47,8 +48,6 @@ public final class NationCore extends JavaPlugin {
         getCommand("death").setExecutor(new DeathCommand());
         getCommand("pay").setExecutor(new PayCommand());
         getCommand("nick").setExecutor(new NickCommand());
-
-
         //PlayerNationManager.setupPlayerData();
 
         Runnable.startDailyRunnable();

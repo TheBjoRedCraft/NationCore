@@ -1,6 +1,7 @@
 package dev.thebjoredcraft.nationcore.nation;
 
 import dev.thebjoredcraft.nationcore.bosbar.BosBarManager;
+import dev.thebjoredcraft.nationcore.bossbar.BossBarManager;
 import dev.thebjoredcraft.nationcore.economy.shop.ShopHandler;
 import dev.thebjoredcraft.nationcore.kingsystem.KingManager;
 import dev.thebjoredcraft.nationcore.utils.Runnable;
@@ -61,22 +62,59 @@ public class StaffNationCommand implements CommandExecutor, TabCompleter {
                     KingManager.giveCrown(player, target);
                     player.sendMessage(MiniMessage.miniMessage().deserialize("<red>Der Spieler hat nun eine Krone!"));
                 }
+            }else if (args.length > 0 && args[0].equalsIgnoreCase("news")) {
+                if (args.length > 1) {
+                    if (args[1].equalsIgnoreCase("add")) {
+                        if (args.length > 2) {
+                            String message = String.join(" ", args).substring(11);
+
+                            BossBarManager.messages.add(message);
+                            sender.sendMessage("Die neue Nachricht wurde hinzugefügt.");
+                        } else {
+                            sender.sendMessage("Usage: /stations news add <message>");
+                        }
+                    } else if (args[1].equalsIgnoreCase("remove")) {
+                        if (args.length > 2) {
+                            int index = Integer.parseInt(args[2]);
+                            if (index >= 0 && index < BossBarManager.messages.size()) {
+                                BossBarManager.messages.remove(index);
+                                sender.sendMessage("Die Nachricht mit dem index " + index + " wurde gelöscht.");
+                            } else {
+                                sender.sendMessage("Invalid index.");
+                            }
+                        } else {
+                            sender.sendMessage("Usage: /stations news remove <index>");
+                        }
+                    } else if (args[1].equalsIgnoreCase("list")) {
+                        BossBarManager.sendMessages(player);
+                    } else if (args[1].equalsIgnoreCase("toggle")) {
+                        BossBarManager.toggleBossBar();
+                        sender.sendMessage("BossBar update " + (BossBarManager.bossBarEnabled ? "enabled" : "disabled"));
+                    }
+                }
             }else{
                 player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations set <player> <nation>"));
                 player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations get <player>"));
                 player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations remove <player>"));
                 player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations sv"));
                 player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations crown <player>"));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations news add <message>"));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations news remove <index>"));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations news list"));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations news toggle"));
             }
         }
         return false;
     }
-    private final String[] sub1 = new String[]{"set","get", "remove", "time", "crown"};
+    private final String[] sub1 = new String[]{"set","get", "remove", "time", "crown", "news"};
+    private final String[] subNews = new String[]{"add","remove", "list", "toggle"};
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         List<String> completions = new ArrayList<>();
         if(args.length == 0) {
             StringUtil.copyPartialMatches(args[0], Arrays.asList(sub1), completions);
+        }else if(args.length == 1 && args[0].equalsIgnoreCase("news")){
+            StringUtil.copyPartialMatches(args[0], Arrays.asList(subNews), completions);
         }
         Collections.sort(completions);
         return completions;
