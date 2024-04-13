@@ -28,6 +28,7 @@ public class StaffNationCommand implements CommandExecutor, TabCompleter {
             if(args.length == 3 && args[0].equalsIgnoreCase("set")){
                 String nation = args[2];
                 Player target = Bukkit.getPlayer(args[1]);
+
                 if(target != null){
                     if(nation.equalsIgnoreCase("water") || nation.equalsIgnoreCase("fire") || nation.equalsIgnoreCase("nothing")) {
                         PlayerNationManager.joinTeam(target.getName(), nation);
@@ -66,9 +67,13 @@ public class StaffNationCommand implements CommandExecutor, TabCompleter {
                 if (args.length > 1) {
                     if (args[1].equalsIgnoreCase("add")) {
                         if (args.length > 2) {
-                            String message = String.join(" ", args).substring(11);
+                            StringBuilder msg = new StringBuilder();
 
-                            BossBarManager.messages.add(message);
+                            for( int i = 2; i < args.length; i++) {
+                                msg.append(args[i]).append(" ");
+                            }
+
+                            BossBarManager.messages.add(msg.toString());
                             sender.sendMessage("Die neue Nachricht wurde hinzugefügt.");
                         } else {
                             sender.sendMessage("Usage: /stations news add <message>");

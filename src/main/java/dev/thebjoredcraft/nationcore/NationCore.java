@@ -1,5 +1,6 @@
 package dev.thebjoredcraft.nationcore;
 
+import dev.thebjoredcraft.nationcore.bossbar.BossBarManager;
 import dev.thebjoredcraft.nationcore.death.DeathCommand;
 import dev.thebjoredcraft.nationcore.economy.MoneyCommand;
 import dev.thebjoredcraft.nationcore.economy.PayCommand;
@@ -54,6 +55,7 @@ public final class NationCore extends JavaPlugin {
         Runnable.startTenSecondRunnable();
         PlayerNationManager.setupPlayerData();
         ShopHandler.hide();
+        BossBarManager.startRunnable();
 
 
 //        PlayerDataManager.dataFile = new File(get DataFolder(), "data.yml");
@@ -72,6 +74,7 @@ public final class NationCore extends JavaPlugin {
         ShopHandler.hide();
         Runnable.stopDailyRunnable();
         Runnable.stopTenSecondRunnable();
+        BossBarManager.stopRunnable();
 
         //PlayerNationManager.savePlayerData();
         PlayerNationManager.savePlayerData();

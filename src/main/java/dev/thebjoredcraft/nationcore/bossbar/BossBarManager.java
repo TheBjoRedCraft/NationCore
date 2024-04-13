@@ -1,11 +1,11 @@
 package dev.thebjoredcraft.nationcore.bossbar;
 
 import dev.thebjoredcraft.nationcore.NationCore;
+import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
-import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -47,16 +47,13 @@ public class BossBarManager {
         currentIndex = (currentIndex + 1) % messages.size();
 
         if (bossBar == null) {
-            bossBar = Bukkit.createBossBar(message, BarColor.BLUE, BarStyle.SOLID);
-            bossBar.setVisible(true);
+            bossBar = BossBar.bossBar(MiniMessage.miniMessage().deserialize(message), 0, BossBar.Color.WHITE, BossBar.Overlay.PROGRESS);
         } else {
-            bossBar.setTitle(message);
+            bossBar.name(MiniMessage.miniMessage().deserialize(message));
         }
 
-        bossBar.setProgress(1.0);
-
         for (Player player : Bukkit.getOnlinePlayers()) {
-            bossBar.addPlayer(player);
+            bossBar.addViewer(player);
         }
     }
 
