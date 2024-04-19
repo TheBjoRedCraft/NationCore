@@ -11,31 +11,22 @@ import dev.thebjoredcraft.nationcore.region.Regions;
 import io.papermc.paper.event.player.PlayerTradeEvent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.event.player.*;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.event.raid.RaidTriggerEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class EventManager implements Listener {
-    public static Map<String, ItemStack[]> playerInventories = new HashMap<>();
     @EventHandler
     public void onMove(PlayerMoveEvent event){
         Player player = event.getPlayer();
@@ -129,6 +120,22 @@ public class EventManager implements Listener {
         }
     }
     @EventHandler
+    public void onInteractGeneral(PlayerInteractEvent event){
+        if(event.getInteractionPoint() != null){
+            if(Region.isInRegion(event.getInteractionPoint(), Regions.WATER) && !PlayerNationManager.getTeam(event.getPlayer().getName()).getDisplayName().equals("water")) {
+                if (!event.getPlayer().hasPermission("nations.nationprot.bypass")) {
+                    event.setCancelled(true);
+                    event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<red>Du kannst hier nicht interagieren!"));
+                }
+            }else if(Region.isInRegion(event.getInteractionPoint(), Regions.FIRE) && !PlayerNationManager.getTeam(event.getPlayer().getName()).getDisplayName().equals("fire")) {
+                if (!event.getPlayer().hasPermission("nations.nationprot.bypass")) {
+                    event.setCancelled(true);
+                    event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<red>Du kannst hier nicht interagieren!"));
+                }
+            }
+        }
+    }
+    @EventHandler
     public void onClick(InventoryClickEvent event){
         PlayerBuyGuiDrops.handle(event);
         PlayerBuyGuiDye.handle(event);
@@ -152,11 +159,8 @@ public class EventManager implements Listener {
                     DeathManager.setDead(player, false);
                 } else {
                     if (DeathManager.getDead(player)) {
-                        ItemStack toRemove = new ItemStack(Material.DIAMOND_BLOCK);
+                        event.getPlayer().getItemInHand().setAmount(event.getPlayer().getItemInHand().getAmount() -1);
 
-                        toRemove.setAmount(1);
-
-                        event.getPlayer().getInventory().removeItem(toRemove);
                         DeathManager.setDead(player, false);
 
                         player.sendMessage(MiniMessage.miniMessage().deserialize("<bold>Du wurdest wiederbelebt!"));
@@ -167,6 +171,22 @@ public class EventManager implements Listener {
                         }
                     }
                 }
+            }
+        }
+        if(Region.isInRegion(event.getRightClicked().getLocation(), Regions.FIRE) && !PlayerNationManager.getTeam(event.getPlayer().getName()).getDisplayName().equals("fire")){
+            if(!event.getPlayer().hasPermission("nations.nationprot.bypass")) {
+                event.setCancelled(true);
+                event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<red>Du kannst hier nicht interagieren!"));
+            }
+        }else if(Region.isInRegion(event.getRightClicked().getLocation(), Regions.WATER) && !PlayerNationManager.getTeam(event.getPlayer().getName()).getDisplayName().equals("water")){
+            if(!event.getPlayer().hasPermission("nations.nationprot.bypass")) {
+                event.setCancelled(true);
+                event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<red>Du kannst hier nicht interagieren!"));
+            }
+        }else if(Region.isInRegion(event.getRightClicked().getLocation(), Regions.SPAWN_REGION) && !event.getPlayer().hasPermission("nations.spawnprot.bypass")){
+            if(!event.getPlayer().hasPermission("nations.nationprot.bypass")) {
+                event.setCancelled(true);
+                event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<red>Du kannst hier nicht interagieren!"));
             }
         }
     }
@@ -196,41 +216,6 @@ public class EventManager implements Listener {
     public void onDeath(PlayerDeathEvent event){
         if(!event.getPlayer().hasPermission("nations.death.bypass")) {
             DeathManager.handleDeath(event.getPlayer());
-
-            Player player = event.getEntity();
-            String playerName = player.getName();
-            ItemStack[] playerItems = player.getInventory().getContents();
-
-            playerInventories.put(playerName, playerItems);
-            event.getDrops().clear();
-            int dropCount = playerItems.length / 2;
-
-            for (int i = 0; i < dropCount; i++) {
-                ItemStack item = playerItems[i];
-                if (item != null && !item.getType().equals(Material.AIR)) {
-                    player.getWorld().dropItemNaturally(player.getLocation(), item);
-                }
-            }
-
-            ItemStack[] remainingItems = new ItemStack[playerItems.length - dropCount];
-            System.arraycopy(playerItems, dropCount, remainingItems, 0, remainingItems.length);
-            playerInventories.put(playerName, remainingItems);
-
-            Location deathLocation = player.getLocation();
-            Block block = deathLocation.getBlock();
-            block.setType(Material.CHEST);
-            Chest chest = (Chest) block.getState();
-            Inventory chestInventory = chest.getBlockInventory();
-
-            for (int i = 0; i < dropCount; i++) {
-                ItemStack remainingItem = playerItems[dropCount + i];
-                if (remainingItem != null && !remainingItem.getType().equals(Material.AIR)) {
-                    chestInventory.addItem(remainingItem);
-                }
-            }
-
-            // Inform the player about the dropped items
-            player.sendMessage("50% of your items dropped at your death location, and the remaining 50% were stored in a chest.");
         }
     }
     @EventHandler
@@ -257,6 +242,11 @@ public class EventManager implements Listener {
                 event.setCancelled(true);
                 event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<red>Du kannst hier nicht bauen!"));
             }
+        }else if(Region.isInRegion(event.getBlock().getLocation(), Regions.SPAWN_REGION) && !event.getPlayer().hasPermission("nations.spawnprot.bypass")){
+            if(!event.getPlayer().hasPermission("nations.nationprot.bypass")) {
+                event.setCancelled(true);
+                event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<red>Du kannst hier nicht bauen!"));
+            }
         }
     }
     @EventHandler
@@ -270,6 +260,11 @@ public class EventManager implements Listener {
             if(!event.getPlayer().hasPermission("nations.nationprot.bypass")) {
                 event.setCancelled(true);
                 event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<red>Du kannst hier nicht abbauen!"));
+            }
+        }else if(Region.isInRegion(event.getBlock().getLocation(), Regions.SPAWN_REGION) && !event.getPlayer().hasPermission("nations.spawnprot.bypass")){
+            if(!event.getPlayer().hasPermission("nations.nationprot.bypass")) {
+                event.setCancelled(true);
+                event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize("<red>Du kannst hier nicht bauen!"));
             }
         }
     }
@@ -285,6 +280,59 @@ public class EventManager implements Listener {
         if(!player.hasPermission("nations.trade.bypass")){
             event.setCancelled(true);
             player.sendMessage(MiniMessage.miniMessage().deserialize("<red>Du kannst nicht handeln!"));
+        }
+    }
+    @EventHandler
+    public void onEntityExplode(EntityExplodeEvent event){
+        if(event.getEntity().getType().equals(EntityType.ENDER_CRYSTAL)){
+            event.setCancelled(true);
+        }
+    }
+    @EventHandler
+    public void onRaid(RaidTriggerEvent event){
+        Player player = event.getPlayer();
+        if(!player.hasPermission("nations.raid.bypass")){
+            event.setCancelled(true);
+
+            player.sendMessage(MiniMessage.miniMessage().deserialize("<red>Du kannst keine Raids starten!"));
+            player.removePotionEffect(PotionEffectType.BAD_OMEN);
+        }
+    }
+    @EventHandler
+    public void onBlockExplosion(BlockExplodeEvent event){
+        if(event.getBlock().getType().equals(Material.TNT) ||event.getBlock().getType().equals(Material.RESPAWN_ANCHOR)){
+            event.setCancelled(true);
+        }
+    }
+    @EventHandler
+    public void onEntityInteract(PlayerInteractAtEntityEvent event){
+        Player player = event.getPlayer();
+        if(event.getRightClicked().getType().equals(EntityType.ZOMBIE_VILLAGER)) {
+            if (!player.hasPermission("nations.villagerheal.bypass")) {
+                event.setCancelled(true);
+
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>Du kannst nicht mit Zombie Villagern interagieren!"));
+            }
+        }
+    }
+    @EventHandler
+    public void onBlockDamage(EntityDamageByBlockEvent event){
+        if(event.getDamager().getType().equals(Material.RESPAWN_ANCHOR)){
+            event.setCancelled(true);
+            event.getEntity().sendMessage(MiniMessage.miniMessage().deserialize("<red>Du machst keinen Schaden mit Respawn Anchorn!"));
+        }
+    }
+    @EventHandler
+    public void onEntityDamage(EntityDamageByEntityEvent event){
+        if(event.getDamager().getType().equals(EntityType.ENDER_CRYSTAL)){
+            event.setCancelled(true);
+            event.getEntity().sendMessage(MiniMessage.miniMessage().deserialize("<red>Du machst keinen Schaden mit Ender Kristallen!"));
+        }
+    }
+    @EventHandler
+    public void onTransform(EntityTransformEvent event){
+        if(event.getEntity().getType().equals(EntityType.ZOMBIE_VILLAGER)){
+            event.setCancelled(true);
         }
     }
 }

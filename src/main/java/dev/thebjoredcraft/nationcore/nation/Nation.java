@@ -16,7 +16,7 @@ public enum Nation {
         this.name = name;
     }
 
-    public String getDisplayName() {
+    public String getName() {
         return displayName;
     }
 
@@ -24,7 +24,7 @@ public enum Nation {
         return region;
     }
 
-    public String getName() {
+    public String getDisplayName() {
         return name;
     }
 }

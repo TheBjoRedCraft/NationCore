@@ -49,7 +49,7 @@ public class ShopHandler {
         Entity trader = loc.getWorld().spawnEntity(loc, EntityType.VILLAGER);
 
         trader.setCustomNameVisible(true);
-        trader.customName(MiniMessage.miniMessage().deserialize("<bold>Verkauf"));
+        trader.customName(MiniMessage.miniMessage().deserialize("<bold>Shop"));
 
         trader.setInvulnerable(true);
         trader.setSilent(true);

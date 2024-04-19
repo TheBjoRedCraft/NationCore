@@ -1,6 +1,5 @@
 package dev.thebjoredcraft.nationcore.nation;
 
-import dev.thebjoredcraft.nationcore.bosbar.BosBarManager;
 import dev.thebjoredcraft.nationcore.bossbar.BossBarManager;
 import dev.thebjoredcraft.nationcore.economy.shop.ShopHandler;
 import dev.thebjoredcraft.nationcore.kingsystem.KingManager;
@@ -33,7 +32,7 @@ public class StaffNationCommand implements CommandExecutor, TabCompleter {
                     if(nation.equalsIgnoreCase("water") || nation.equalsIgnoreCase("fire") || nation.equalsIgnoreCase("nothing")) {
                         PlayerNationManager.joinTeam(target.getName(), nation);
                     }else{
-                        player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Es gibt nur diese Nationen: <color:#40d1db>Water, Fire, Nothing"));
+                        player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>>> </color><color:#3b92d1>Es gibt nur diese Nationen: <color:#40d1db>Water, Fire, Nothing"));
                     }
                 }
             }else if(args.length == 2 && args[0].equalsIgnoreCase("remove")){
@@ -47,21 +46,21 @@ public class StaffNationCommand implements CommandExecutor, TabCompleter {
                     player.sendMessage(PlayerNationManager.getTeam(target.getName()).getDisplayName());
                 }
             }else if(args.length == 1 && args[0].equalsIgnoreCase("time")){
-                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>" + Runnable.getRealInGameTime()));
-                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>---------"));
-                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>" + Runnable.getCount()));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>>> </color><red>" + Runnable.getRealInGameTime()));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>>> </color><red>---------"));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>>> </color><red>" + Runnable.getCount()));
             }else if(args.length == 1 && args[0].equalsIgnoreCase("sv")){
                 if(ShopHandler.isVisible){
                     ShopHandler.hide();
                 }else{
                     ShopHandler.show();
                 }
-                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>The Shop Handler visibility is now: " + ShopHandler.isVisible));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>>> </color><red>The Shop Handler visibility is now: " + ShopHandler.isVisible));
             }else if(args.length == 2 && args[0].equalsIgnoreCase("crown")){
                 Player target = Bukkit.getPlayer(args[1]);
                 if(target != null){
                     KingManager.giveCrown(player, target);
-                    player.sendMessage(MiniMessage.miniMessage().deserialize("<red>Der Spieler hat nun eine Krone!"));
+                    player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>>> </color><red>Der Spieler hat nun eine Krone!"));
                 }
             }else if (args.length > 0 && args[0].equalsIgnoreCase("news")) {
                 if (args.length > 1) {
@@ -74,39 +73,39 @@ public class StaffNationCommand implements CommandExecutor, TabCompleter {
                             }
 
                             BossBarManager.messages.add(msg.toString());
-                            sender.sendMessage("Die neue Nachricht wurde hinzugefügt.");
+                            sender.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>>> </color><red>Die neue Nachricht wurde hinzugefügt."));
                         } else {
-                            sender.sendMessage("Usage: /stations news add <message>");
+                            sender.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>>> </color><red>Usage: /stations news add <message>"));
                         }
                     } else if (args[1].equalsIgnoreCase("remove")) {
                         if (args.length > 2) {
                             int index = Integer.parseInt(args[2]);
                             if (index >= 0 && index < BossBarManager.messages.size()) {
                                 BossBarManager.messages.remove(index);
-                                sender.sendMessage("Die Nachricht mit dem index " + index + " wurde gelöscht.");
+                                sender.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>>> </color><red>Die Nachricht mit dem index " + index + " wurde gelöscht."));
                             } else {
-                                sender.sendMessage("Invalid index.");
+                                sender.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>>> </color><red>Invalid index."));
                             }
                         } else {
-                            sender.sendMessage("Usage: /stations news remove <index>");
+                            sender.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>>> </color><red>Usage: /stations news remove <index>"));
                         }
                     } else if (args[1].equalsIgnoreCase("list")) {
                         BossBarManager.sendMessages(player);
                     } else if (args[1].equalsIgnoreCase("toggle")) {
                         BossBarManager.toggleBossBar();
-                        sender.sendMessage("BossBar update " + (BossBarManager.bossBarEnabled ? "enabled" : "disabled"));
+                        sender.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>>> </color><red>BossBar update " + (BossBarManager.bossBarEnabled ? "enabled" : "disabled")));
                     }
                 }
             }else{
-                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations set <player> <nation>"));
-                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations get <player>"));
-                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations remove <player>"));
-                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations sv"));
-                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations crown <player>"));
-                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations news add <message>"));
-                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations news remove <index>"));
-                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations news list"));
-                player.sendMessage(MiniMessage.miniMessage().deserialize("<red>/snations news toggle"));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>>> </color><red>/snations set <player> <nation>"));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>>> </color><red>/snations get <player>"));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>>> </color><red>/snations remove <player>"));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>>> </color><red>/snations sv"));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>>> </color><red>/snations crown <player>"));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>>> </color><red>/snations news add <message>"));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>>> </color><red>/snations news remove <index>"));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>>> </color><red>/snations news list"));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>>> </color><red>/snations news toggle"));
             }
         }
         return false;

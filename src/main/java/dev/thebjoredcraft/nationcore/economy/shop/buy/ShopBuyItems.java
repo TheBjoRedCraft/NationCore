@@ -341,9 +341,9 @@ public class ShopBuyItems {
         ItemMeta meta = stack.getItemMeta();
         ArrayList<Component> lore = new ArrayList<>();
 
-        lore.add(MiniMessage.miniMessage().deserialize("<bold>Preis: 100"));
+        lore.add(MiniMessage.miniMessage().deserialize("<bold>Preis: 1000"));
         meta.lore(lore);
-        meta.setCustomModelData(100);
+        meta.setCustomModelData(1000);
 
         stack.setItemMeta(meta);
         return stack;
@@ -461,9 +461,9 @@ public class ShopBuyItems {
         ItemMeta meta = stack.getItemMeta();
         ArrayList<Component> lore = new ArrayList<>();
 
-        lore.add(MiniMessage.miniMessage().deserialize("<bold>Preis: 100"));
+        lore.add(MiniMessage.miniMessage().deserialize("<bold>Preis: 100000"));
         meta.lore(lore);
-        meta.setCustomModelData(100);
+        meta.setCustomModelData(100000);
 
         stack.setItemMeta(meta);
         return stack;
